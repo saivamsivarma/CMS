@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.bubble.css";
+@import "~quill/dist/quill.snow.css";
+
+*{
+    box-sizing: border-box ;
+}
+
+html,body{
+    max-width: 100%;
+    min-height: 30%;
+    overflow-x: hidden;
+}.bg-blue{
+    background-color: #cfdfff;
+}
+
+.primary-text{
+    color: #4D6FFF;
+}
+
+.primary-btn,
+.primary-btn:hover,
+.primary-outline-btn:hover{
+    background-color: #4D6FFF;
+    color: #ffffff;
+}
+
+.primary-outline-btn{
+    background-color: #FFFFFF;
+    color: #4D6FFF;
+    border:1px solid #4D6FFF;
+}
+
+.ql-editor {
+    height: 30vh !important;
+}
+
+

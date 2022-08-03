@@ -1,0 +1,140 @@
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col-12 col-md-5">
+            <div class="bg-blue p-3 p-md-5 rounded">
+                <div class="fs-1 fw-semibold mt-0 mt-md-5">Create account</div>
+                <div class="text-secondary fs-5 text-wrap">
+                    Create your account in a few steps and start enjoying uninterrupted reading experience.
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 bg-light rounded" *ngIf="formHeader==='signUp'">
+            <div class="p-3 p-md-5">
+                <div class="fs-3 fw-semibold">Tell us about you</div>
+                <div class="fs-5 text-secondary">Some basic details to get started.</div>
+                <div class="row py-2 my-3">
+                    <div class="col-12 col-md-10">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="floatingInput email"
+                                placeholder="name@gmail.com" minlength="10" required name="email_id" [(ngModel)]="Email"
+                                required>
+                            <label for="floatingInput">Email Address</label>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput first_name"
+                                placeholder="first Name" minlength="3" required name="first_name"
+                                [(ngModel)]="first_Name">
+                            <label for="floatingInput">First Name</label>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-5">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput last_name" placeholder="Last Name"
+                                minlength="3" required name="last_name" [(ngModel)]="last_Name">
+                            <label for="floatingInput">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-floating mb-3 d-flex border">
+                            <input [type]="show ? 'text' : 'password'" class="form-control border-0"
+                            id="floatingInput password" placeholder="Password" minlength="8" name="password"[(ngModel)]="Password">
+                            <label for="floatingPassword">Password</label>
+                            <button class="btn" (click)="password()"> <img src="../../assets/toggleOff.svg" alt=""
+                                    *ngIf="show" height="25"> <img src="../../assets/toggleOn.svg" alt="" *ngIf="!show"
+                                    height="25"></button>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingInput confirmPassword"
+                                placeholder="Confirm password" minlength="8" name="confirm password"
+                                [(ngModel)]="confirmPassword">
+                            <label for="floatingInput">Confirm password</label>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-check my-2">
+                            <input type="checkbox" class="form-check-input" [(ngModel)]="ischeck"
+                                [ngModelOptions]="{standalone : true}">
+                            <label for="" class="form-check-label">I agree to the <span class="link-primary"> terms and
+                                    conditions</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <button class="btn primary-btn w-100 my-3 fs-5" [disabled]="!ischeck" (click)="registerUser()" *ngIf="!api.registerLoad">Register</button>
+                    <button class="btn primary-btn w-100 my-3 fs-5" type="button" disabled *ngIf="api.registerLoad">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                      </button>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="my-2 text-center mt-2">Already Member? <span [routerLink]="['/login']"
+                                class="link-primary">Login Now</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-7 bg-light rounded" *ngIf="formHeader==='profilePic'">
+            <div class="p-3 p-md-5">
+                <div class="fs-3 fw-semibold">& Upload your image.</div>
+                <div class="fs-5 text-secondary">Uploading an image is optional and the image can only be viewed by the
+                    Users.</div>
+                <div class="row py-2 my-3">
+                    <div class="col-12 col-md-10">
+                        <div class="text-center">
+                            <img [src]="url" alt="" height="250" width="250" class="user-img">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-10 mt-3" *ngIf="url==='../../assets/user.svg'">
+                        <div class="d-flex justify-content-around">
+                            <button class="btn btn-light fs-5 w-25 shadow-sm" [routerLink]="['/Dashboard']" routerLinkActive="router-link-active" >skip</button>
+                            <button type="button" class="btn primary-btn fs-5 w-25 shadow-sm"
+                                (click)="fileInput.click()">
+                                <span>Upload</span>
+                                <input #fileInput type="file" (change)="onFileSelected($event)" style="display:none;"
+                                    accept="image/*" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-10 mt-3" *ngIf="url!='../../assets/user.svg'">
+                        <div class="d-flex justify-content-around">
+                            <button class="btn btn-light fs-5 w-25 shadow-sm"
+                                (click)="removeFileSelected()">Remove</button>
+                            <button type="button" class="btn primary-btn fs-5 w-25 shadow-sm"
+                            (click)="createImageForm()">Save Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-7 bg-light rounded" *ngIf="formHeader==='Topics'">
+            <div class="p-3 p-md-5">
+                <div class="fs-3 fw-semibold">Choice Topics</div>
+                <div class="fs-5 text-secondary">Some topics you like to see in your dashboard.</div>
+                <div class="row py-2 my-3">
+                    <div class="col-6 my-2 p-2" *ngFor="let item of TopicsGroup">
+                        <div class="form-element w-100">
+                            <input type="checkbox" name="platform" value="{{item.Value}}" id="{{item.Value}}">
+                            <label for="{{item.Name}}">
+                                <div class="title fs-3">
+                                    {{item.Name}}
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-light w-25">Skip</button>
+                            <button class="btn primary-btn">Save Preferences</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

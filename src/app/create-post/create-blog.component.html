@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row p-2">
+        <div class="col-12 col-lg-6 bg-blue">
+            <div class="card p-3 my-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="fs-3 fw-bold align-items-center">Create Your <span class="primary-text">Post</span>
+                    </div>
+                    <button type="button" class="btn-close" aria-label="Close" [routerLink]="['/Dashboard']"></button>
+                </div>
+                <div class="my-2">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Blog Title"
+                            [(ngModel)]="title">
+                        <label for="floatingInput">Title</label>
+                    </div>
+                </div>
+                <div class="my-2">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            [(ngModel)]="category">
+                            <option selected>Select Category</option>
+                            <option value="New">News</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Education">Education</option>
+                            <option value="Health">Health</option>
+                            <option value="Business">Business</option>
+                            <option value="Travel">Travel</option>
+                        </select>
+                        <label for="floatingSelect">Select Category</label>
+                    </div>
+                </div>
+                <div class="my-2">
+                    <div class="input-group mb-3">
+                        <div class="d-flex justify-content-between w-100">
+                            <label class="primary-text">Post Poster</label>
+                            <label class="text-danger">*uneditable</label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="inputGroupFile01"
+                                (change)="onFileSelected($event)" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="my-2">
+                        <div class="d-flex justify-content-between w-100">
+                            <label class="primary-text">Tags</label>
+                            <label class="text-danger">*uneditable</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Tags"
+                                [(ngModel)]="tags">
+                            <label for="floatingInput">Tags</label>
+                        </div>
+                    </div>
+                    <div class="my-2">
+                        <quill-editor [(ngModel)]="post_content" [ngModelOptions]="{standalone : true}" style="height: 200px"></quill-editor>
+                    </div>
+                    <button class="btn primary-btn w-100" (click)="createBlogForm()"
+                        >submit</button>
+                        <!-- *ngIf="!api.createBlogLoad"
+                    <button class="btn primary-btn w-100" type="button" disabled *ngIf="api.createBlogLoad">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="row p-2">
+                <div class="col-4">
+                    <img [src]="url" alt="" width="100%" class="user-img rounded">
+                </div>
+                <div class="col-8">
+                    <div class="fw-semibold fs-2 primary-text">{{title}}</div>
+                    <div class="my-2"></div>
+                </div>
+                <div class="col-12">
+                    <div [innerHtml]="post_content"></div>
+                </div>
+            </div>
+        </div>
+    </div>

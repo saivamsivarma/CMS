@@ -1,0 +1,47 @@
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    padding: 10px;
+    background:#ffffff;
+    transition: all 0.3s ease;
+    z-index: 100;  
+}
+.navbar-style{
+    box-shadow:0px 5px 20px 2px rgba(0,0,0,0.1);
+}
+.bg-light{
+    height: 100vh;
+}
+.card{
+    border:1px solid #4D6FFF;
+    box-shadow:0px 5px 20px 2px rgba(0,0,0,0.1);
+}
+.bg-custom{
+    color:#718797;
+    background-color: #ECF0F3;
+}
+
+.badge-container{
+    padding: 0.1rem;
+}
+
+.image_dimension{
+    height: 200px;
+    width: 100%;
+}
+
+.top-navbar{
+    background-color: #ffffff;
+    height: 10vh;
+}
+
+.blog_user_img{
+    border-radius: 50px;
+}
+
+.card-hidden{
+    visibility: hidden;
+}

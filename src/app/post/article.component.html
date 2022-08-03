@@ -1,0 +1,192 @@
+<div class="container-fluid">
+    <div class="row gy-2 align-items-center justify-content-center">
+        <div class="col-12 col-md-8">
+            <button class="btn btn-secondary px-3" [routerLink]="['/Dashboard']" routerLinkActive="router-link-active" >back</button>
+        </div>
+        <div class="col-12 col-md-8 bg-light">
+            <div class="row my-2 align-items-center">
+                <div class="col-2 col-md-1">
+                    <img src="../../assets/user.svg" alt="user" class="user-img" *ngIf="api.postResult?.post.author_details?.image==''"  height="50" width="50">
+                    <img src='{{api.postResult?.post.author_details?.image}}' alt="" class="user-img" *ngIf="api.postResult?.post.author_details?.image!=''"  height="50" width="50">
+                </div>
+                <div class="col-6 col-md-8">
+                        <div class="text-primary">Author</div>
+                    <div>{{api.postResult?.post.author_details.name}}</div>
+                    <span class="badge bg-primary">{{api.postResult?.post.category}}</span>
+                </div>
+                <div class="col-4 col-md-3">
+                    <button class="btn btn-primary" *ngIf="api.id!=api.postResult?.post.createdBy" (click)="getProfile(api.postResult?.post.createdBy)">View Profile</button>
+                    <div class="d-md-flex justify-content-between mt-2" *ngIf="api.id==api.postResult?.post.createdBy">
+                        <button class="btn btn-outline-danger curd_button my-2"
+                            (click)="deletePost(api.postResult?.post._id)">Delete</button>
+                        <button class="btn btn-outline-secondary curd_button my-2"
+                            data-bs-toggle="modal" data-bs-target="#updateblog"
+                            (click)="updatePost(api.postResult?.post,api.postResult?.post._id)">Update</button>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="fs-1 fw-bold">{{api.postResult?.post.title}}</div>
+
+                    <img src='{{api.postResult?.post.poster.src}}' alt="" width="100%">
+
+                    <div class="mt-3 text-primary fw-bold">Tags</div>
+                    <div class="d-flex align-content-start flex-wrap">
+                        <div class="badge-container" *ngFor="let item of api.postResult?.tags" role="button">
+                            <span class="badge bg-primary">{{item}}</span>
+                        </div>
+                    </div>
+
+                    <div [innerHtml]="api.postResult?.post.post_content"></div>
+
+                </div>
+                <div class="col-12">
+                    <div class="d-flex align-content-start flex-wrap my-2">
+                        <button class="btn shadow-sm" (click)="likePost(api.postResult.post._id)"
+                            *ngIf="api.checkLike != api.id"><img src="../../assets/like.svg" alt=""
+                                height="25"></button>
+                        <button class="btn shadow-sm" (click)="unlikePost(api.postResult.post._id)"
+                            *ngIf="api.checkLike == api.id"><img src="../../assets/likeFill.svg" alt=""
+                                height="25"></button>
+                        <button class="btn shadow-sm" (click)="dislikePost(api.postResult.post._id)"
+                            *ngIf="api.checkDislike != api.id"> <img src="../../assets/unlike.svg" alt=""
+                                height="25"></button>
+                        <button class="btn shadow-sm" (click)="undislikePost(api.postResult.post._id)"
+                            *ngIf="api.checkDislike == api.id"> <img src="../../assets/unlikeFill.svg" alt=""
+                                height="25"></button>
+                        <button class="btn shadow-sm" data-bs-toggle="modal" data-bs-target="#blogCount"
+                            (click)="count(api.postResult.post._id)">View</button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex border rounded p-2">
+                        <div class="form-floating w-100">
+                            <input type="text" class="form-control border-0" placeholder="Comment"
+                                [(ngModel)]="comment" [ngModelOptions]="{standalone: true}">
+                            <label for="floatingSearch">Comment</label>
+                        </div>
+                        <button class="btn btn-primary w-25"
+                            (click)="sendcomment(api.postResult.post._id)">Send</button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="primary-text fs-3 fw-bold">Comments</div>
+                    <div class="card p-2" *ngFor="let i of api.postResult?.post.comments">
+                        <div class="row align-items-center">
+                            <div class="col-3 col-md-1 text-center">
+                                <img src="../../assets/user.svg" alt="" height="45" *ngIf="i.image==''">
+                                <img src='{{i.image}}' alt="" height="65" class="blog_user_img" *ngIf="i.image!=''">
+                            </div>
+                            <div class="col-9 col-md-11">
+                                <div class="primary-text fs-6 fw-bold">{{i.author_Name}}</div>
+                                <div class="">{{i.comment}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="blogCount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Response</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-3" *ngIf="api.reaction?.likeArray.length==0 && api.reaction?.dislikeArray.length==0">
+                   <div class="fs-5 fw-bold primary-text text-center">No One Reacted to your post</div>
+                </div>
+                <div *ngIf="api.reaction?.likeArray.length>0">
+                    <div class="primary-text fw-bold fs-4">Likes</div>
+                    <div class="card p-2" *ngFor="let i of api.reaction?.likeArray">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../../assets/user.svg" alt="user-profile" height="70"
+                                    *ngIf="i.picture_image==''">
+                                    <img src='{{i.picture_image}}' alt="" height="60" class="post_user" *ngIf="i.picture_image!=''">
+                            </div>
+                            <div class="col-8">
+                                <div class="fs-5">{{i.first_Name}} {{i.last_Name}}</div>
+                                <div class="text-secondary">{{i.email_id}}</div>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" (click)="getProfile(i._id)" class="btn-close" data-bs-dismiss="modal" >View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="api.reaction?.dislikeArray.length>0">
+                    <div class="text-secondary fw-bold fs-4">Dislikes</div>
+                    <div class="card p-2" *ngFor="let i of api.reaction?.dislikeArray">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../../assets/user.svg" alt="user-profile" height="70"
+                                    *ngIf="i.picture_image==''">
+                                    <img src='{{i.picture_image}}' alt="" height="60" class="post_user" *ngIf="i.picture_image!=''">
+                            </div>
+                            <div class="col-8">
+                                <div class="fs-5">{{i.first_Name}} {{i.last_Name}}</div>
+                                <div class="text-secondary">{{i.email_id}}</div>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" (click)="getProfile(i._id)" class="btn-close" data-bs-dismiss="modal" >View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="updateblog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Blog</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="postData!=null">
+                <div class="my-2">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Blog Title"
+                            [(ngModel)]="postData.title">
+                        <label for="floatingInput">Title</label>
+                    </div>
+                </div>
+                <div class="my-2">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                            [(ngModel)]="postData.category">
+                            <option selected>Select Category</option>
+                            <option value="New">News</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Education">Education</option>
+                            <option value="Health">Health</option>
+                            <option value="Business">Business</option>
+                            <option value="Travel">Travel</option>
+                        </select>
+                        <label for="floatingSelect">Select Category</label>
+                    </div>
+                </div>
+                <div class="my-2">
+                    <quill-editor [(ngModel)]="postData.post_content" [ngModelOptions]="{standalone : true}">
+                    </quill-editor>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn primary-btn w-25" data-bs-dismiss="modal"
+                    (click)="update()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

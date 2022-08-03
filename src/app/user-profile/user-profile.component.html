@@ -1,0 +1,169 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 shadow-sm bg-primary">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-lg-10 bg-light">
+            <div class="row align-items-center justify-content-center gy-3 mt-2 scroll-div overflow-auto">
+                <div class="col-12 col-md-5">
+                    <div class="card" aria-hidden="true" *ngIf="api.getProfileByUserLoad">
+                        <div class="text-center">
+                            <img src="../../assets/user.svg" alt="user" height="150" width="150">
+                            <div>
+                                <a href="#" tabindex="-1" class="btn primary-btn my-3 disabled placeholder col-6"></a>
+                            </div>
+                            <h5 class="card-title placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </h5>
+                        </div>
+                        <div class="d-lg-flex justify-content-lg-between p-2">
+                            <div class="fw-bold"><span class="primary-text">First_Name:</span>
+
+                                <span class="placeholder col-12"></span>
+                            </div>
+                            <div class="fw-bold"> <span class="primary-text">Last_Name:</span>
+                                <span class="placeholder col-12"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm p-2" *ngIf="!api.getProfileByUserLoad">
+                        <div class="row">
+                            <div class="col-6 text-center">
+                                <img src="../../assets/user.svg" alt="user" height="150" width="150"
+                                    *ngIf="api.getProfileByUserResult.userDetails?.picture_image==''">
+                                <img src='{{api.getProfileByUserResult.userDetails?.picture_image}}' alt="" class="user-img"
+                                    *ngIf="api.getProfileByUserResult.userDetails?.picture_image!=''">
+                                <div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="fs-3 primary-text"> {{api.getProfileByUserResult?.userDetails.first_Name}}
+                                            {{api.getProfileByUserResult?.userDetails.last_Name}} </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center my-2">
+                                <div class="bg-blue p-2 text-primary fs-5 rounded border border-primary" role="button" data-bs-toggle="modal" data-bs-target="#followers">Followers</div>
+                                <div class="primary-text fs-2 fw-semibold">{{api.getProfileByUserResult.userDetails?.followers.length}}
+                                </div>
+                            </div>
+                            <div class="col-4 text-center my-2 ">
+                                <div class="bg-blue p-2 text-primary fs-5  border border-primary rounded w-100" role="button" data-bs-toggle="modal" data-bs-target="#followers">
+                                    Following</div>
+                                <div class="primary-text fs-2 fw-semibold">{{api.getProfileByUserResult.userDetails?.following.length}}</div>
+                            </div>
+                            <div class="col-4 text-center my-2 ">
+                                <div class="bg-blue p-2 text-primary fs-5  border border-primary rounded w-100">
+                                    Posts</div>
+                                <div class="primary-text fs-2 fw-semibold">{{api.getOtherusersResult?.posts.length}}</div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100" (click)="follow(api.getProfileByUserResult.userDetails._id)" *ngIf="api.checkFollowing != api.id">Follow</button>
+                                <button class="btn btn-outline-primary w-100" (click)="unfollow(api.getProfileByUserResult.userDetails._id)" *ngIf="api.checkFollowing == api.id">UnFollow</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 col-md-6" *ngFor="let i of api.getOtherusersResult?.posts">
+                            <div class="card p-2">
+                                <div class="row align-items-center">
+                                    <div class="col-4">
+                                        <img src='{{i.poster.src}}' alt="poster-img" class="blog_img rounded"
+                                            width="100%" height="100%">
+                                    </div>
+                                    <div class="col-8 p-2">
+                                        <span class="badge bg-primary">{{i.category}}</span>
+                                        <div class="post-title fw-semibold my-2 fs-6">{{i.title}}</div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex justify-content-between">
+                                                <img src="../../assets/user.svg" alt="" height="50" width="50"
+                                                    *ngIf="i.author_details.image==''">
+                                                <img src='{{i.author_details.image}}' alt="" height="50"
+                                                    class="blog_user_img rounded-pill"
+                                                    *ngIf="i.author_details.image!=''">
+                                                <div class="user_Details px-2">
+                                                    <div class="fs-6 fw-semibold">{{i.author_details.name}}</div>
+                                                    <div class="text-secondary">{{i.createdAt}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="share_icon">
+                                                <button class="btn share_btn"><img src="../../assets/share.svg" alt=""
+                                                        height="25"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="followers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Response</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="my-3" *ngIf="api.getProfileByUserResult?.userFollowList?.following.length==0 && api.getProfileByUserResult?.userFollowList?.followers.length==0">
+                   <div class="fs-5 fw-bold primary-text text-center">No One Reacted to your post</div>
+                </div>
+                <div *ngIf="api.getProfileByUserResult?.userFollowList.following.length>0">
+                    <div class="primary-text fw-bold fs-4">Folllowing</div>
+                    <div class="card p-2" *ngFor="let i of api.getProfileByUserResult?.userFollowList?.following">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../../assets/user.svg" alt="user-profile" height="70"
+                                    *ngIf="i.picture_image==''">
+                                    <img src='{{i.picture_image}}' alt="" height="60" class="post_user" *ngIf="i.picture_image!=''">
+                            </div>
+                            <div class="col-8">
+                                <div class="fs-5">{{i.first_Name}} {{i.last_Name}}</div>
+                                <div class="text-secondary">{{i.email_id}}</div>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" (click)="getProfile(i._id)" data-bs-dismiss="modal" *ngIf="i._id!=api.id">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="api.getProfileByUserResult?.userFollowList.followers.length>0">
+                    <div class="text-secondary fw-bold fs-4">Followers</div>
+                    <div class="card p-2" *ngFor="let i of api.getProfileByUserResult?.userFollowList.followers">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <img src="../../assets/user.svg" alt="user-profile" height="70"
+                                    *ngIf="i.picture_image==''">
+                                    <img src='{{i.picture_image}}' alt="" height="60" class="post_user" *ngIf="i.picture_image!=''">
+                            </div>
+                            <div class="col-8">
+                                <div class="fs-5">{{i.first_Name}} {{i.last_Name}}</div>
+                                <div class="text-secondary">{{i.email_id}}</div>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" (click)="getProfile(i._id)" data-bs-dismiss="modal" *ngIf="i._id!=api.id">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>

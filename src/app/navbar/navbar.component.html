@@ -1,0 +1,135 @@
+<!-- <nav class="navbar navbar-expand-lg shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="../../assets/logo.svg" alt="" height="18">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-lg-auto p-1">
+                <li class="nav-item">
+                    <a class="nav-link fs-5" [routerLink]="['/Dashboard']">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" [routerLink]="['/create_blog']"
+                        routerLinkActive="router-link-active">Create Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" [routerLink]="['/Profile']">Profile</a>
+                </li>
+            </ul>
+            <div class="d-lg-flex ms-lg-auto text-center align-items-center">
+                <button class="btn btn-secondary me-2 px-5 w-100 my-2 shadow-sm" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">Search</button>
+                    <div *ngIf="api.profileLoad">
+                        <img src="../../assets/user.svg" alt="user" class="user-img">
+                    </div>
+                    <div *ngIf="!api.profileLoad">
+                        <img src="../../assets/user.svg" alt="user" class="user-img" *ngIf="api.userProfile.user.profileImage==''">
+                        <img src='{{api.userProfile.user.profileImage}}' alt="" class="user-img" *ngIf="api.userProfile.user.profileImage!=''">
+                    </div>
+                <button class="btn w-100 my-2" (click)="api.logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Blog Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="floatingPassword" placeholder="Search"
+                                    [(ngModel)]="tags" [ngModelOptions]="{standalone: true}" (ngModelChange)="search()">
+                                <label for="floatingSearch">Search</label>
+                            </div>
+                            <div class="search-result">
+                                <div *ngFor="let i of api.getBlogByTags">
+                                    <div class="card">
+                                        <div class="card-body p-1">
+                                            <div class="row align-items-center">
+                                                <div class="col-12">
+                                                    <div class="text-secondary fw-bold">{{i.blogId?.category}}</div>
+                                                    <div class="fs-5 fw-semibold">
+                                                        {{i.blogId?.title}}
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center blog_details">
+                                                        <div class="d-flex justify-content-between blog_owner align-items-center">
+                                                            <img src="../../assets/user.svg" alt="" height="35" *ngIf="i.blogId?.userDetails.image==''">
+                                                    <img src='{{i.blogId?.userDetails.image}}' alt="" height="35" class="blog_user_img" *ngIf="i.blogId?.userDetails.image!=''">
+                                                            <div class="fw-light">{{i.blogId?.userDetails.name}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="blog_details mt-2">
+                                                        <button class="btn float-end primary-text fw-bold" (click)="readArticle(i.blogId?._id)" data-bs-dismiss="modal" aria-label="Close">Read Article</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn primary-btn w-100 border shadow-sm" disabled *ngIf="tags==''">Clear</button>
+                    <button class="btn primary-btn w-100 border shadow-sm" (click)="clear()" *ngIf="tags!=''">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<nav class="my-4">
+    <div class="nav__brand my-2 d-flex justify-content-between">
+        <div class="navbar-brand mx-lg-auto text-center">
+            <img src="../../assets/user.svg" alt="user" class="user-img" *ngIf="api.userProfile?.user.picture_image==''">
+            <img src='{{api.userProfile?.user.picture_image}}' alt="" class="user-img" *ngIf="api.userProfile?.user.picture_image!=''" width="100%">
+        </div>
+        <button class="custom-toggler navbar-toggler d-sm-block d-lg-none" data-toggle="collapse"
+            data-target="#navbarNavDropdown" aria-controls="navbarsExample09" aria-label="Toggle navigation"
+            (click)="collapseNavbar()">
+            <img src='../../assets/navbar.svg' alt="navicon" height="20">
+        </button>
+    </div>
+
+    <div [ngClass]="{'collapse navbar-collapse justify-content-center': isNavCollapsed === false, ' navbar-collapse justify-content-center' : isNavCollapsed === true }"
+        id="navbarNavDropdown">
+        <div class="my-5 mb-3 d-block d-lg-none">
+            <div class="nav__link my-3 py-2 px-3 rounded" role="button" [routerLink]="['/Dashboard']">
+                <a class="nav__name fs-5 text-decoration-none text-light">Dashboard</a>
+            </div>
+            <div class="nav__link my-3 py-2 px-3 rounded" role="button" [routerLink]="['/search']">
+                <a class="nav__name fs-5 text-decoration-none text-light">Search</a>
+            </div>
+            <div class="nav__link my-3 py-2 px-3 rounded" role="button"[routerLink]="['/Profile']">
+                <a class="nav__name fs-5 text-decoration-none text-light">Profile</a>
+            </div>
+            <div class="nav__link my-3 py-2 px-3 rounded" role="button">
+                <button class="btn btn-light w-100" (click)="api.logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+    <div class="my-5 mb-3 d-none d-lg-block mx-lg-auto">
+        <div class="nav__link my-3 py-2 px-3 rounded" role="button" [routerLink]="['/Dashboard']">
+            <a class="nav__name fs-5 text-decoration-none text-light">Dashboard</a>
+        </div>
+        <div class="nav__link my-3 py-2 px-3 rounded" role="button" [routerLink]="['/search']">
+            <a class="nav__name fs-5 text-decoration-none text-light">Search</a>
+        </div>
+        <div class="nav__link my-3 py-2 px-3 rounded" role="button" [routerLink]="['/Profile']">
+            <a class="nav__name fs-5 text-decoration-none text-light">Profile</a>
+        </div>
+        <div class="nav__link logout py-2 rounded mx-lg-4" role="button">
+            <a class="nav__name fs-5 text-decoration-none text-white" (click)="api.logout()">Logout</a>
+        </div>
+    </div>
+</nav>

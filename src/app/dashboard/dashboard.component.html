@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 shadow-sm bg-primary">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-lg-10 bg-light">
+            <div class="row gy-3 mt-2">
+                <div class="col-12">
+                    <div class="float-end">
+                        <button class="btn primary-btn shadow-sm d-flex align-items-center w-100"
+                            [routerLink]="['/create_blog']">
+                            <img src="../../assets/pen_icon.svg" alt="pen_icon" height="26">Create Post
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card p-2" *ngFor="let i of api.getPostsResult?.posts;let index=index" role="button"
+                        (click)="readArticle(i._id)" [ngClass]="{'card-hidden': index%2==1}">
+                        <div class="row align-items-center" *ngIf="index%2==0">
+                            <div class="col-4">
+                                <img src='{{i.poster.src}}' alt="poster-img" class="blog_img rounded" width="100%"
+                                    height="110vh">
+                            </div>
+                            <div class="col-8 p-2">
+                                <span class="badge bg-primary">{{i.category}}</span>
+                                <div class="post-title fw-semibold my-2 fs-6">{{i.title}}</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex justify-content-between">
+                                        <img src="../../assets/user.svg" alt="" height="50" width="50"
+                                            *ngIf="i.author_details.image==''">
+                                        <img src='{{i.author_details.image}}' alt="" height="50"
+                                            class="blog_user_img" *ngIf="i.author_details.image!=''">
+                                        <div class="user_Details px-2">
+                                            <div class="fs-6 fw-semibold">{{i.author_details.name}}</div>
+                                            <div class="text-secondary">{{i.createdAt}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="share_icon">
+                                        <button class="btn share_btn"><img src="../../assets/share.svg" alt=""
+                                                height="25"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-3">
+                    <div class="card p-2" role="button" *ngFor="let i of api.getPostsResult?.posts;let index=index"
+                        (click)="readArticle(i._id)" [ngClass]="{'card-hidden': index%2!=1}">
+                        <div *ngIf="index%2==1">
+                            <div class="post_img">
+                                <img src='{{i.poster.src}}' alt="poster-img" class="blog_img rounded" width="100%"
+                                    height="120vh">
+                            </div>
+                            <div class="post_owner_details">
+                                <span class="badge bg-primary">{{i.category}}</span>
+                                <div class="post-title fw-semibold my-2 fs-6">{{i.title}}</div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex justify-content-between">
+                                        <img src="../../assets/user.svg" alt="" height="50" width="50"
+                                            *ngIf="i.author_details.image==''">
+                                        <img src='{{i.author_details.image}}' alt="" height="50" class="blog_user_img"
+                                            *ngIf="i.author_details.image!=''">
+                                        <div class="user_Details px-2">
+                                            <div class="fs-6 fw-semibold">{{i.author_details.name}}</div>
+                                            <div class="text-secondary">{{i.createdAt}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="share_icon">
+                                        <button class="btn share_btn"><img src="../../assets/share.svg" alt=""
+                                                height="25"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3 col-md-3">
+                    <div class="card p-2">
+                        <div class="fs-6 fw-semibold">Popular <span class="primary-text">Tags</span></div>
+                        <div class="d-flex align-content-start flex-wrap">
+                            <div *ngFor="let item of api.getTags?.tags">
+                                <div class="badge-container"  role="button" (click)="tagSearch(item._id)" *ngIf="item.post_id.length>0">
+                                    <span class="badge bg-custom">{{item.tagName}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- <div class="card p-2 my-2">
+                        <div class="fs-6 fw-semibold">Popular <span class="primary-text">Categories</span></div>
+                        <div class="d-flex align-content-start flex-wrap">
+                            <div class="badge-container" *ngFor="let item of TopicsGroup">
+                                <span class="badge bg-custom">{{item.Name}}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

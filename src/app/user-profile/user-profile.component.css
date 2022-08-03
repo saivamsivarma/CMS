@@ -1,0 +1,38 @@
+section{
+    background-color: #defbf4cb !important;
+}
+
+
+.bg-light{
+    min-height: 100vh;
+}
+
+.scroll-div{
+    min-height: 90vh;
+}
+
+.text-align{
+    text-align: justify;
+}
+   
+.user-img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+
+.curd_button{
+    width: 25%;
+}
+
+.bg-loading{
+    height: 100%;
+}
+
+
+@media only screen and (max-width: 770px) {
+    .curd_button{
+        width: 100%;
+    }
+  }
